@@ -52,10 +52,10 @@ def remove_all_html(text):
     text = text.replace('\n\n', '\n')
 
     # if a space gets lost, fix it.
-    text = text.replace('”.“', '”. “')
+    text = text.replace('"."', '". "')
 
     # regularise single quote marks for names like O'Grady
-    text = text.replace("’", "'").replace("‘", "'")  ##.replace("“", '"').replace("”", '"')
+    text = text.replace("’", "'").replace("‘", "'")  ##.replace(""", '"').replace(""", '"')
 
     return text
 

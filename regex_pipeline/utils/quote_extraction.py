@@ -19,22 +19,22 @@ quote_verb_boolean_string = ''.join(quote_verb_boolean_list)
 quote_verb_boolean_string = quote_verb_boolean_string[:-1]
 
 re_quote_someone_said = \
-    r'(“[^“\n]+?[,?!]”) ([^\.!?]+?)[\n ]({cue_verbs})([^\.!?]*?)[\.,][\n ]{{0,2}}(“[\w\W]+?”){{0,1}}'.format(
+    r'("[^"\n]+?[,?!]") ([^\.!?]+?)[\n ]({cue_verbs})([^\.!?]*?)[\.,][\n ]{{0,2}}("[\w\W]+?"){{0,1}}'.format(
     cue_verbs= quote_verb_boolean_string)
-re_quote_said_someone = '(“[^“\n]+?[,?!]”)[\n ]({cue_verbs}) ([^\.!?]+?)[\.,](\s{{0,2}}“[^”]+?”){{0,1}}'.format(
+re_quote_said_someone = '("[^"\n]+?[,?!]")[\n ]({cue_verbs}) ([^\.!?]+?)[\.,](\s{{0,2}}"[^"]+?"){{0,1}}'.format(
     cue_verbs=quote_verb_boolean_string)
 re_quote_someone_told_someone = \
-    '(“[^“\n]+?[,?!]”)[\n ]([^\.!?]*?) ({cue_verbs}) ([^\.!?]*?)[\.,][\n ]{{0,2}}(“[\w\W]+?”){{0,1}}'.format(
+    '("[^"\n]+?[,?!]")[\n ]([^\.!?]*?) ({cue_verbs}) ([^\.!?]*?)[\.,][\n ]{{0,2}}("[\w\W]+?"){{0,1}}'.format(
     cue_verbs=quote_verb_boolean_string)
 re_quote_someone_said_colon = \
-    '([^“\n]+?) ({cue_verbs})( \w*?){{0,5}}: (“[\w\W]+?”){{1,1}}'.format(
+    '([^"\n]+?) ({cue_verbs})( \w*?){{0,5}}: ("[\w\W]+?"){{1,1}}'.format(
     cue_verbs=quote_verb_boolean_string)
 re_quote_someone_said_adding_colon = \
-    '([\w\W]+?) (“[\w\W]+?”)([-–\’\s,\w]*?) (adding)( \w*?){0,5}: (“[\w\W]+?”){1,1}'
+    '([\w\W]+?) ("[\w\W]+?")([-–\’\s,\w]*?) (adding)( \w*?){0,5}: ("[\w\W]+?"){1,1}'
 
-between_quotes = '“[^“”,]+?”'
-between_quotes_sentence_start = '$“[^“”]+?”'
-between_quotes_ends_with_comma = '“[^“”]+?,”'
+between_quotes = '"[^"",]+?"'
+between_quotes_sentence_start = '$"[^""]+?"'
+between_quotes_ends_with_comma = '"[^""]+?,"'
 
 QUOTE_TYPES = {
     'someone_said': 1,
@@ -87,14 +87,14 @@ def parse_sentence_quotes(sents, nlp_model, debug=False):
             pass
 
         else:
-            if sent[0] == '“':
-                if sent.find(',”'):
-                    modified_sent = re.sub(between_quotes_sentence_start, '“Dummy phrase,”', sent)
+            if sent[0] == '"':
+                if sent.find(',"'):
+                    modified_sent = re.sub(between_quotes_sentence_start, '"Dummy phrase,"', sent)
             else:
-                if sent.find(',”'):
-                    modified_sent = re.sub(between_quotes_ends_with_comma, '“dummy phrase,”', sent)
+                if sent.find(',"'):
+                    modified_sent = re.sub(between_quotes_ends_with_comma, '"dummy phrase,"', sent)
                 else:
-                    modified_sent = re.sub(between_quotes, '“dummy phrase”', sent)
+                    modified_sent = re.sub(between_quotes, '"dummy phrase"', sent)
 
             m_doc = nlp_model(modified_sent)
             logging.debug(sent)
@@ -115,7 +115,7 @@ def parse_sentence_quotes(sents, nlp_model, debug=False):
                         subtree = [t for t in tok.subtree]
                         idxes = [t.idx for t in subtree]
                         speaker = modified_sent[idxes[0]:idxes[-1] + len(subtree[-1])]
-                        speaker = speaker.replace('“', '').replace('”', '').replace('dummy phrase', '').replace(
+                        speaker = speaker.replace('"', '').replace('"', '').replace('dummy phrase', '').replace(
                             'Dummy phrase', '').strip()
                         logging.debug(sent)
                         logging.debug(modified_sent)
@@ -129,7 +129,7 @@ def parse_sentence_quotes(sents, nlp_model, debug=False):
                         break
 
                 try:
-                    if quote_text != sentence_parse_quotes[-1][0] and quote_text[0] != '“' and quote_text[-1] != '”':
+                    if quote_text != sentence_parse_quotes[-1][0] and quote_text[0] != '"' and quote_text[-1] != '"':
                         for tok in m_doc:
                             if (tok.head.pos_ == 'VERB' and tok.head.text in quote_verbs
                             ):
@@ -175,7 +175,7 @@ def parse_sentence_quotes(sents, nlp_model, debug=False):
                             subtree = [t for t in tok.subtree]
                             idxes = [t.idx for t in subtree]
                             speaker = modified_sent[idxes[0]:idxes[-1] + len(subtree[-1])]
-                            speaker = speaker.replace('“', '').replace('”', '').replace('dummy phrase', '').replace(
+                            speaker = speaker.replace('"', '').replace('"', '').replace('dummy phrase', '').replace(
                                 'Dummy phrase', '').strip()
 
                             if speaker in ('He', 'She'):
@@ -195,7 +195,7 @@ def parse_sentence_quotes(sents, nlp_model, debug=False):
                             subtree = [t for t in tok.subtree]
                             idxes = [t.idx for t in subtree]
                             speaker = modified_sent[idxes[0]:idxes[-1] + len(subtree[-1])]
-                            speaker = speaker.replace('“', '').replace('”', '').strip()
+                            speaker = speaker.replace('"', '').replace('"', '').strip()
 
                             if speaker in ('He', 'She'):
                                 speaker = speaker.lower()
@@ -205,7 +205,7 @@ def parse_sentence_quotes(sents, nlp_model, debug=False):
                             break
 
                 try:
-                    if quote_text != sentence_parse_quotes[-1][0] and quote_text[0] != '“' and quote_text[-1] != '”':
+                    if quote_text != sentence_parse_quotes[-1][0] and quote_text[0] != '"' and quote_text[-1] != '"':
                         for tok in m_doc:
                             if (tok.head.pos_ == 'VERB' and tok.head.text in quote_verbs
                             ):
@@ -310,7 +310,7 @@ def extract_quotes_and_sentence_speaker(text, nlp_model, debug=False):
             if quote == sent:
                 previous_sent = sentences[sent_index - 1]
                 sent_ents = get_complete_ents_list(previous_sent, nlp_model)
-                if '“' not in previous_sent and '”' not in previous_sent:
+                if '"' not in previous_sent and '"' not in previous_sent:
                     doc = nlp_model(previous_sent)
                     found = False
                     for tok in doc:
