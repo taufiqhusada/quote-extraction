@@ -60,6 +60,7 @@ if __name__ == "__main__":
             list_files.append(filename.strip())
     print(len(list_files))
     for filename in list_files:
+        cnt_quotes = 0
         print(filename)
         inp = pd.read_csv(join(data_path, filename), encoding="utf8")
         if (len(inp) > 10000):
@@ -74,11 +75,10 @@ if __name__ == "__main__":
         for i in tqdm(range(len(inps_body))):
             try:
                 text = get_text_from_input(str(inps_hl1[i]) + " " + str(inps_lede[i]) + " " + str(inps_body[i]))
-                if (i==0):
-                    print(text)
+                
                 output, sentences = run_one(text, debug=False)
                 if (len(output) != 0 and len(sentences) != 0):
-                    print(i)
+                    cnt_quotes += 1
 #                     print(i, output)
                     output = [d.to_dict() for d in output]
                     for item in output:
@@ -99,6 +99,7 @@ if __name__ == "__main__":
                 print(filename, i, e)
                               
         output_tsv_file.close()
+        print(cnt_quotes)
         
             
         
