@@ -50,8 +50,17 @@ LIST_COL = ['doc_id','quote_text','speaker','quote_text_optional_second_part','Q
     
 if __name__ == "__main__":
     data_path = '/projectnb/multilm/thdaryan/racial_bias/raw_data/data/145223'
-    onlyfiles = [f for f in listdir(data_path) if isfile(join(data_path, f))]
-    for filename in onlyfiles:
+#     onlyfiles = [f for f in listdir(data_path) if isfile(join(data_path, f))]
+#     with open('list_csv_files.txt', 'w') as temp_file:
+#         for filename in onlyfiles:
+#             temp_file.write(filename + '\n')
+    list_files = []
+    with open('list_csv_files.txt') as temp_file:
+        for filename in temp_file.readlines():
+            list_files.append(filename.strip())
+    print(len(list_files))
+    for filename in list_files:
+        print(filename)
         inp = pd.read_csv(join(data_path, filename), encoding="utf8")
         if (len(inp) > 10000):
              print("more than 10000")
@@ -60,17 +69,17 @@ if __name__ == "__main__":
         inps_lede = inp['lede'].values
         inps_body = inp['body'].values
         doc_ids = inp['DOC-ID'].values
-        output_tsv_file = open(f'results_tsv/result_{filename[:-4]}.tsv', 'w')
-        output_tsv_file.write('doc_id\tquote_text\tspeaker\tquote_text_optional_second_part\tQUOTE_TYPE\tadditional_cue\tquote_text_optional_third_part\n')
+        output_tsv_file = open(f'results_tsv/result_{filename[:-4]}.tsv', 'wb')
+        output_tsv_file.write('doc_id\tquote_text\tspeaker\tquote_text_optional_second_part\tQUOTE_TYPE\tadditional_cue\tquote_text_optional_third_part\n'.encode("utf8"))
         for i in tqdm(range(len(inps_body))):
             try:
                 text = get_text_from_input(str(inps_hl1[i]) + " " + str(inps_lede[i]) + " " + str(inps_body[i]))
-                # if (i==0):
-                   #  print(text)
+                if (i==0):
+                    print(text)
                 output, sentences = run_one(text, debug=False)
                 if (len(output) != 0 and len(sentences) != 0):
                     print(i)
-                    print(i, output)
+#                     print(i, output)
                     output = [d.to_dict() for d in output]
                     for item in output:
                       
@@ -84,7 +93,7 @@ if __name__ == "__main__":
                         
                         
                         # print(string_item)
-                        output_tsv_file.write(string_item[:-1] + '\n')
+                        output_tsv_file.write(string_item[:-1].encode('utf8') + ('\n').encode('utf8'))
                               
             except Exception as e: 
                 print(filename, i, e)
