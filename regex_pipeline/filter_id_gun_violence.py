@@ -27,6 +27,8 @@ def partial_search_in_string(s):
 def partial_search_in_row_csv(row):
     col_to_look = ['hl1', 'lede', 'body']
     for col in col_to_look:
+        if (row[col]==None):
+            continue
         if partial_search_in_string(row[col]):
             return True
 
@@ -54,8 +56,11 @@ if __name__ == "__main__":
         for index, row in tqdm(df.iterrows(), total=df.shape[0]):
             if (partial_search_in_row_csv(row)):
                 print(row['DOC-ID'], row['pubYear'])
+                if (row['DOC-ID']==None):
+                    continue
                 list_doc_id_gun_violence.append(row['DOC-ID'])
-
+                if (row['pubYear']==None):
+                    continue
                 pub_year = int(row['pubYear'])
                 if (pub_year in dict_cnt_year):
                     dict_cnt_year[pub_year] += 1
