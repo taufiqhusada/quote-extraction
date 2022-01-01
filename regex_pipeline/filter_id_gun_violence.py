@@ -1,3 +1,4 @@
+from math import isnan
 import csv
 import pandas as pd
 import os
@@ -59,7 +60,8 @@ if __name__ == "__main__":
                 if (row['DOC-ID']==None):
                     continue
                 list_doc_id_gun_violence.append(row['DOC-ID'])
-                if (row['pubYear']==None):
+                if (row['pubYear']==None or isnan(row['pubYear'])):
+                    print(row['pubYear'])
                     continue
                 pub_year = int(row['pubYear'])
                 if (pub_year in dict_cnt_year):
@@ -69,7 +71,7 @@ if __name__ == "__main__":
 
         #print(list_doc_id_gun_violence)
         print(len(list_doc_id_gun_violence))
-        #print(dict_cnt_year)
+        print(dict_cnt_year)
 
         output_file = f'list_id_gun_violence/list_id_gun_violence_{filename[:-4]}.txt'
         with open(output_file, 'w') as temp_file:
