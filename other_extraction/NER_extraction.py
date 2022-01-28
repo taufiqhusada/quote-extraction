@@ -7,7 +7,7 @@ import json
 NAMED_ENTITY_SET = {'ORG', 'LOC', 'GEO', 'GPE'}
 
 def NER_from_df(hl1, lede, body, doc_id, nlp):
-    dict_result = {'doc_id': doc_id, 'ORG':[], 'LOC':[], 'GEO':[], 'GPE':[]}
+    dict_result = {'doc_id': str(doc_id), 'ORG':[], 'LOC':[], 'GEO':[], 'GPE':[]}
 
     if (hl1):
         doc = nlp(str(hl1))
