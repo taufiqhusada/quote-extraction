@@ -12,19 +12,22 @@ def NER_from_df(hl1, lede, body, doc_id, nlp):
     if (hl1):
         doc = nlp(str(hl1))
         for ent in doc.ents:
-            if ((ent.label_ in NAMED_ENTITY_SET) and (ent.text not in dict_result[ent.label_])):
-                dict_result[ent.label_].append(ent.text)
+            text = str(ent.text)
+            if ((ent.label_ in NAMED_ENTITY_SET) and (text not in dict_result[ent.label_])):
+                dict_result[ent.label_].append(text)
     if (lede):
         doc = nlp(str(lede))
         for ent in doc.ents:
-            if ((ent.label_ in NAMED_ENTITY_SET) and (ent.text not in dict_result[ent.label_])):            
-                dict_result[ent.label_].append(ent.text)
+            text = str(ent.text)
+            if ((ent.label_ in NAMED_ENTITY_SET) and (text not in dict_result[ent.label_])):
+                dict_result[ent.label_].append(text)
 
     if (body):
         doc = nlp(str(body))
         for ent in doc.ents:
-            if ((ent.label_ in NAMED_ENTITY_SET) and (ent.text not in dict_result[ent.label_])):            
-                dict_result[ent.label_].append(ent.text)
+            text = str(ent.text)
+            if ((ent.label_ in NAMED_ENTITY_SET) and (text not in dict_result[ent.label_])):
+                dict_result[ent.label_].append(text)
     
     return dict_result
 
