@@ -7,7 +7,7 @@ import json
 NAMED_ENTITY_SET = {'ORG', 'LOC', 'GEO', 'GPE'}
 
 if __name__ == "__main__":
-    data_path = '/projectnb/multilm/thdaryan/racial_bias/racial_bias/complete_raw_data_unique'
+    data_path = '/projectnb/multilm/thdaryan/racial_bias/complete_raw_data_unique'
     nlp = spacy.load("en_core_web_sm")
     print(nlp.pipe_names)
 
@@ -36,7 +36,7 @@ if __name__ == "__main__":
                 except Exception as e:
                     with open('result_NER/errors.txt', 'w') as f:
                         print(filename, str(e))
-                        f.write(filename, str(e))
+                        f.write(filename + " " + str(e))
                 i+=1
             
             i = 0
@@ -51,7 +51,7 @@ if __name__ == "__main__":
                 except Exception as e:
                     with open('result_NER/errors.txt', 'w') as f:
                         print(filename, str(e))
-                        f.write(filename, str(e))
+                        f.write(filename + " " + str(e))
                 i+=1
 
             output_json_file = open(f'result_NER/NER_{filename[:-4]}.json', 'w')
@@ -61,6 +61,6 @@ if __name__ == "__main__":
         except Exception as e:
             with open('result_NER/errors.txt', 'w') as f:
                 print(filename, str(e))
-                f.write(filename, str(e))
+                f.write(filename + " " + str(e))
 
         
