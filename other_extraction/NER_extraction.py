@@ -19,9 +19,10 @@ if __name__ == "__main__":
             csv_path = os.path.join(data_path, filename)
             try:
                 df = pd.read_csv(csv_path, error_bad_lines=False,  encoding='utf8', engine='python')
+                print(df.head(1))
                 doc_ids = df['DOC-ID'].values
             except:
-                df = pd.read_csv(csv_path, error_bad_lines=False,  encoding='utf8', engine='python', header=['hl1','author','lede','body','DOC-ID','pubDay','pubMonth','pubYear','pubName','filename','Unique_Id'])
+                df = pd.read_csv(csv_path, error_bad_lines=False,  encoding='utf8', engine='python', names=['hl1','author','lede','body','DOC-ID','pubDay','pubMonth','pubYear','pubName','filename','Unique_Id'])
                 print(df.head(1))
                 doc_ids = df['DOC-ID'].values
             json_result = {'data':[], 'errors':[]}        
