@@ -36,7 +36,7 @@ def get_text_from_input(input_):
 
 
 # Quote extraction
-def run_one(text, model_name='en_core_web_trf', debug=True):
+def run_one(text, model_name='en_core_web_sm', debug=True):
     nlp = spacy.load(model_name)
     results = extract_quotes_and_sentence_speaker(text, nlp, debug)
     return results
@@ -49,23 +49,19 @@ def write_jsonl(data, path):
 LIST_COL = ['doc_id','quote_text','speaker','quote_text_optional_second_part','QUOTE_TYPE','additional_cue','quote_text_optional_third_part']
     
 if __name__ == "__main__":
-    data_path = '/projectnb/multilm/thdaryan/racial_bias/raw_data/data/145223'
-#     onlyfiles = [f for f in listdir(data_path) if isfile(join(data_path, f))]
-#     with open('list_csv_files.txt', 'w') as temp_file:
-#         for filename in onlyfiles:
-#             temp_file.write(filename + '\n')
-    list_files = []
-    with open('list_csv_files.txt') as temp_file:
-        for filename in temp_file.readlines():
-            list_files.append(filename.strip())
+    data_path = '/projectnb/multilm/thdaryan/racial_bias/complete_raw_data_unique'
+
+    list_files = [f'LexisNexis_BostonMedia_NewsArticles_unique_{i}.csv' for i in range(20)]
+
     print(len(list_files))
     for filename in list_files:
         cnt_quotes = 0
         print(filename)
-        inp = pd.read_csv(join(data_path, filename), encoding="utf8")
-        if (len(inp) > 10000):
-             print("more than 10000")
-             continue
+        try:
+            inp = pd.read_csv(join(data_path, filename),error_bad_lines=False,  encoding='utf8', engine='python')
+        except Exception as e: 
+            print(filename, e)
+
         inps_hl1 = inp['hl1'].values
         inps_lede = inp['lede'].values
         inps_body = inp['body'].values
@@ -86,10 +82,10 @@ if __name__ == "__main__":
                         item['doc_id'] = doc_ids[i]
                         string_item = ""
                         for col in LIST_COL:
-                              if (col in item and item[col]!=None):
-                                    string_item += str(item[col]) + "\t"
-                              else:
-                                    string_item += "\t"
+                            if (col in item and item[col]!=None):
+                                string_item += str(item[col]).strip() + "\t"
+                            else:
+                                string_item += "\t"
                         
                         
                         # print(string_item)
@@ -100,6 +96,4 @@ if __name__ == "__main__":
                               
         output_tsv_file.close()
         print(cnt_quotes)
-        
-            
         
