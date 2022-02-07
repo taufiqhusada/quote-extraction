@@ -58,6 +58,7 @@ if __name__ == "__main__":
         cnt_quotes = 0
         print(filename)
        
+        csv_path = join(data_path, filename)
         try:
             inp = pd.read_csv(csv_path, error_bad_lines=False,  encoding='utf8', engine='python')
             print(inp.head(1))
