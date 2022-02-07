@@ -62,15 +62,13 @@ if __name__ == "__main__":
         except Exception as e: 
             print(filename, e)
 
-        inps_hl1 = inp['hl1'].values
-        inps_lede = inp['lede'].values
         inps_body = inp['body'].values
         doc_ids = inp['DOC-ID'].values
         output_tsv_file = open(f'results_tsv/result_{filename[:-4]}.tsv', 'wb')
         output_tsv_file.write('doc_id\tquote_text\tspeaker\tquote_text_optional_second_part\tQUOTE_TYPE\tadditional_cue\tquote_text_optional_third_part\n'.encode("utf8"))
         for i in tqdm(range(len(inps_body))):
             try:
-                text = get_text_from_input(str(inps_hl1[i]) + " " + str(inps_lede[i]) + " " + str(inps_body[i]))
+                text = get_text_from_input(str(inps_body[i]))
                 
                 output, sentences = run_one(text, debug=False)
                 if (len(output) != 0 and len(sentences) != 0):
