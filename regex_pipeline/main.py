@@ -57,13 +57,18 @@ if __name__ == "__main__":
     for filename in list_files:
         cnt_quotes = 0
         print(filename)
+       
         try:
-            inp = pd.read_csv(join(data_path, filename),error_bad_lines=False,  encoding='utf8', engine='python')
-        except Exception as e: 
-            print(filename, e)
+            inp = pd.read_csv(csv_path, error_bad_lines=False,  encoding='utf8', engine='python')
+            print(inp.head(1))
+            doc_ids = inp['DOC-ID'].values
+        except:
+            inp = pd.read_csv(csv_path, error_bad_lines=False,  encoding='utf8', engine='python', names=['hl1','author','lede','body','DOC-ID','pubDay','pubMonth','pubYear','pubName','filename','Unique_Id'])
+            print(inp.head(1))
+            doc_ids = inp['DOC-ID'].values
 
         inps_body = inp['body'].values
-        doc_ids = inp['DOC-ID'].values
+
         output_tsv_file = open(f'results_tsv/result_{filename[:-4]}.tsv', 'wb')
         output_tsv_file.write('doc_id\tquote_text\tspeaker\tquote_text_optional_second_part\tQUOTE_TYPE\tadditional_cue\tquote_text_optional_third_part\n'.encode("utf8"))
         for i in tqdm(range(len(inps_body))):
