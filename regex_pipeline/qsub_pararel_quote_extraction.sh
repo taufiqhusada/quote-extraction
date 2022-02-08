@@ -3,7 +3,7 @@
 #$ -P multilm
 #$ -l h_rt=200:00:00   # Specify the hard time limit for the job
 #$ -pe omp 20
-#$ -N quote_extraction
+#$ -N quote_extraction_pararel
 #$ -j y               # Merge the error and output streams into a single file
 #$ -V
 #$ -m e
