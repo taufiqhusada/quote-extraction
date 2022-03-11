@@ -31,10 +31,10 @@ if __name__ == "__main__":
                 try:
                     for ent in doc.ents:
                         text = str(ent.text)
-                        if ((ent.label_ in NAMED_ENTITY_SET) and (text not in json_result['data'][i][ent.label_])):
+                        if ((ent.label_ in NAMED_ENTITY_SET) and (text not in list_json_result[i][ent.label_])):
                             list_json_result[i][ent.label_].append(text)
                 except Exception as e:
-                    with open(f'result_alligned/errors_{file_split}.txt', 'a') as f:
+                    with open(f'result_alligned_NER/errors_{file_split}.txt', 'a') as f:
                         print(filename, str(e))
                         f.write(str(e) + '\n')
                 i+=1
@@ -46,6 +46,6 @@ if __name__ == "__main__":
             gc.collect()
 
         except Exception as e:
-            with open(f'result_alligned/errors_{file_split}.txt', 'a') as f:
+            with open(f'result_alligned_NER/errors_{file_split}.txt', 'a') as f:
                 print(filename, str(e))
                 f.write(str(e) + '\n')    
