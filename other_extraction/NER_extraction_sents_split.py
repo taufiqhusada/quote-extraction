@@ -13,8 +13,8 @@ if __name__ == "__main__":
     file_split = sys.argv[1] 
     filename = f'/projectnb/multilm/thdaryan/racial_bias/names_extraction_splitted/names_extraction_{file_split}.csv'
     
-    with open(f'result_alligned_NER/NER_{file_split}.json', mode='w+', encoding='utf-8') as f:
-        json.dump([], f)
+    with open(f'result_alligned_NER/NER_{file_split}.jsonl', mode='w+', encoding='utf-8') as f:
+        json.dump({}, f)
     
     for df_chunk in tqdm(pd.read_csv(filename, chunksize=10**4, header=None,  error_bad_lines=False,  encoding='utf8', engine='python')):
         try:
@@ -39,8 +39,9 @@ if __name__ == "__main__":
                         f.write(str(e) + '\n')
                 i+=1
 
-            with open('result_alligned_NER/NER_{file_split}.json', mode='a+', encoding='utf-8') as f:
-                json.dump(list_json_result, f)
+            with open(f'result_alligned_NER/NER_{file_split}.jsonl', mode='a+', encoding='utf-8') as f:
+                for res in list_json_result:
+                    json.dump(res, f)
 
             del df_chunk
             gc.collect()
