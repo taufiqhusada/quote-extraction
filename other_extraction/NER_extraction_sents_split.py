@@ -3,6 +3,8 @@ import pandas as pd
 import spacy
 from tqdm import tqdm 
 import json
+import sys
+import gc
 
 NAMED_ENTITY_SET = {'ORG', 'LOC', 'GEO', 'GPE'}
 
