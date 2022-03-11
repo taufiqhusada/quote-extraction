@@ -27,7 +27,7 @@ if __name__ == "__main__":
             i = 0
             batch_text_raw = df_chunk['sent'].values
             batch_text = [str(item) for item in batch_text_raw]
-            for doc in tqdm(nlp.pipe(batch_text, disable=["tok2vec", "tagger", "parser", "attribute_ruler", "lemmatizer"]), total=len(doc_ids)):
+            for doc in nlp.pipe(batch_text, disable=["tok2vec", "tagger", "parser", "attribute_ruler", "lemmatizer"]), total=len(doc_ids):
                 try:
                     for ent in doc.ents:
                         text = str(ent.text)
