@@ -20,7 +20,7 @@ if __name__ == "__main__":
             list_id_from_name_extraction = df_chunk['id_from_name_extraction'].values
             i = 0
             for id in doc_ids:
-                list_json_result.append({'doc_id': str(id), 'id_from_name_extraction': list_id_from_name_extraction[i], 'ORG':[], 'LOC':[], 'GEO':[], 'GPE':[]})
+                list_json_result.append({'doc_id': str(id), 'id_from_name_extraction': str(list_id_from_name_extraction[i]), 'ORG':[], 'LOC':[], 'GEO':[], 'GPE':[]})
                 i += 1
 
             i = 0
