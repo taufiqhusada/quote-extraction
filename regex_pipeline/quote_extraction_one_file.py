@@ -45,8 +45,6 @@ def write_jsonl(data, path):
     import srsly
     srsly.write_jsonl(path, [d.to_dict() for d in data])
     logging.info(f"Output witten to {output_path}")
-
-LIST_COL = ['doc_id','quote_text','speaker','quote_text_optional_second_part','QUOTE_TYPE','additional_cue','quote_text_optional_third_part']
     
 if __name__ == "__main__":
     data_path = '/projectnb/multilm/thdaryan/racial_bias/complete_raw_data_unique'
@@ -66,9 +64,7 @@ if __name__ == "__main__":
         doc_ids = inp['DOC-ID'].values
 
     inps_body = inp['body'].values
-
-    output_tsv_file = open(f'results_tsv/result_{filename[:-4]}.tsv', 'wb')
-    output_tsv_file.write('doc_id\tquote_text\tspeaker\tquote_text_optional_second_part\tQUOTE_TYPE\tadditional_cue\tquote_text_optional_third_part\n'.encode("utf8"))
+    jsonl_output_file = open(f'result_json/quote_extraction_{filename}.jsonl', mode='a+', encoding='utf-8')
     for i in tqdm(range(len(inps_body))):
         try:
             text = get_text_from_input(str(inps_body[i]))
@@ -76,25 +72,19 @@ if __name__ == "__main__":
             output, sentences = run_one(text, debug=False)
             if (len(output) != 0 and len(sentences) != 0):
                 cnt_quotes += 1
-#                     print(i, output)
+                
                 output = [d.to_dict() for d in output]
                 for item in output:
 
-                    item['doc_id'] = doc_ids[i]
-                    string_item = ""
-                    for col in LIST_COL:
-                        if (col in item and item[col]!=None):
-                            string_item += str(item[col]).strip() + "\t"
-                        else:
-                            string_item += "\t"
-
-
+                    item['DOC-ID'] = str(doc_ids[i])
+                
                     # print(string_item)
-                    output_tsv_file.write(string_item[:-1].encode('utf8') + ('\n').encode('utf8'))
+                    json.dump(item, jsonl_output_file)
+                    jsonl_output_file.write('\n')
 
         except Exception as e: 
             print(filename, i, e)
 
-    output_tsv_file.close()
+    jsonl_output_file.close()
     print(cnt_quotes)
         
