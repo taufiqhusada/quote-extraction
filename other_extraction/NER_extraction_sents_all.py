@@ -38,7 +38,7 @@ if __name__ == "__main__":
                         f.write(str(list_id_from_name_extraction[i]) + " " + str(e) + '\n')
                 i+=1
 
-            with open(f'result_alligned_NER/NER_all.jsonl', mode='a+', encoding='utf-8') as f:
+            with open('result_alligned_NER/NER_all.jsonl', mode='a+', encoding='utf-8') as f:
                 for res in list_json_result:
                     json.dump(res, f)
                     f.write('\n')
