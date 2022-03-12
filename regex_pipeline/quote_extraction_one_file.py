@@ -64,7 +64,7 @@ if __name__ == "__main__":
         doc_ids = inp['DOC-ID'].values
 
     inps_body = inp['body'].values
-    jsonl_output_file = open(f'result_json/quote_extraction_{filename}.jsonl', mode='a+', encoding='utf-8')
+    jsonl_output_file = open(f'result_json/quote_extraction_{filename[:-4]}.jsonl', mode='a+', encoding='utf-8')
     for i in tqdm(range(len(inps_body))):
         try:
             text = get_text_from_input(str(inps_body[i]))
