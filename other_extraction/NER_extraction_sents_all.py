@@ -33,9 +33,9 @@ if __name__ == "__main__":
                         if ((ent.label_ in NAMED_ENTITY_SET) and (text not in list_json_result[i][ent.label_])):
                             list_json_result[i][ent.label_].append(text)
                 except Exception as e:
-                    with open(f'result_alligned_NER/errors_all.txt', 'a') as f:
+                    with open('result_alligned_NER/errors_all.txt', 'a') as f:
                         print(str(e))
-                        f.write(str(e) + '\n')
+                        f.write(str(list_id_from_name_extraction[i]) + " " + str(e) + '\n')
                 i+=1
 
             with open(f'result_alligned_NER/NER_all.jsonl', mode='a+', encoding='utf-8') as f:
@@ -47,6 +47,6 @@ if __name__ == "__main__":
             gc.collect()
 
         except Exception as e:
-            with open(f'result_alligned_NER/errors_all.txt', 'a') as f:
+            with open('result_alligned_NER/errors_all.txt', 'a') as f:
                 print(str(e))
                 f.write(str(e) + '\n')    
