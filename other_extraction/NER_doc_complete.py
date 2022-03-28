@@ -17,7 +17,6 @@ if __name__ == "__main__":
     for filename in tqdm(list_files):
         df_chunk = pd.read_csv(filename, error_bad_lines=False,  encoding='utf8', engine='python')
         try:
-            df_chunk.rename(columns={0: 'id_from_name_extraction', 1:'sent', 2:'names', 3:'start', 4:'end', 5:'source_type', 6:'DOC-ID'}, inplace=True)
             list_json_result = []
             doc_ids = df_chunk['DOC-ID'].values
 
